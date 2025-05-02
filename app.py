@@ -18,21 +18,22 @@ st.subheader('Summarize URL')
 
 
 
-## Get the HuggingFace API Key and url(YT or website)to be summarized
+## Get the Groq API Key and url(YT or website)to be summarized
 with st.sidebar:
-    hf_api_key=st.text_input("HuggingFace API Token",value="",type="password")
+    # hf_api_key=st.text_input("HuggingFace API Token",value="",type="password")
+    groq_api_key=st.text_input("Groq API Token",value="",type="password")
 
 generic_url=st.text_input("URL",label_visibility="collapsed")
 
-## Gemma Model USsing Groq API
-# llm =ChatGroq(model="gemma2-9b-it", groq_api_key=groq_api_key)
+# Gemma Model USsing Groq API
+llm =ChatGroq(model="gemma2-9b-it", groq_api_key=groq_api_key)
 
-repo_id = "mistralai/Mistral-7B-Instruct-v0.3"
-llm = HuggingFaceEndpoint(repo_id=repo_id, 
-                          task="text-generation",
-                          max_length=150, 
-                          temperature=0.7, 
-                          token=hf_api_key)
+# repo_id = "mistralai/Mistral-7B-Instruct-v0.3"
+# llm = HuggingFaceEndpoint(repo_id=repo_id, 
+#                           task="text-generation",
+#                           max_length=150, 
+#                           temperature=0.7, 
+#                           token=hf_api_key)
 
 prompt_template="""
 Provide a summary of the following content in 300 words:
@@ -43,7 +44,7 @@ prompt=PromptTemplate(template=prompt_template,input_variables=["text"])
 
 if st.button("Summarize the Content from YT or Website"):
     ## Validate all the inputs
-    if not hf_api_key.strip() or not generic_url.strip():
+    if not groq_api_key.strip() or not generic_url.strip():
         st.error("Please provide the information to get started")
     elif not validators.url(generic_url):
         st.error("Please enter a valid Url. It can be a YT video url or website url")
